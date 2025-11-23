@@ -1,0 +1,15 @@
+[submodule "buildroot"]
+	path = buildroot
+	url = https://github.com/buildroot/buildroot.git
+	branch = 2024.11.x
+[submodule "linux-orangepi"]
+	path = linux-orangepi
+	url = https://github.com/orangepi-xunlong/linux-orangepi.git
+	branch = orange-pi-6.1-rk35xx
+[submodule "rkbin"]
+	path = rkbin
+	url = https://github.com/rockchip-linux/rkbin.git
+[submodule "u-boot-orangepi"]
+	path = u-boot-orangepi
+	url = https://github.com/orangepi-xunlong/u-boot-orangepi.git
+	branch = v2017.09-rk3588
