@@ -24,7 +24,7 @@ if [[ $ACTION == build ]]; then
 
     make ARCH=arm64 CROSS_COMPILE="$TOOLCHAIN" $DEFCONFIG
     make ARCH=arm64 CROSS_COMPILE="$TOOLCHAIN" -j$(nproc) Image
-    IMAGE_SIZE=$("$SDK_DIR/customer/$CUST/scripts/script_kernel.sh" $ACTION)
+    IMAGE_SIZE=$("$SDK_DIR/customer/$CUST/scripts/script_kernel.sh" $ACTION | sed -n 's/^IMAGE_SIZE://p')
     make ARCH=arm64 CROSS_COMPILE="$TOOLCHAIN" -j$(nproc) dtbs
 
     cp -f "arch/arm64/boot/dts/rockchip/rk3588-${CUST}.dtb" boot/rk3588.dtb

@@ -9,7 +9,7 @@ TOOLCHAIN="$SOURCE_DIR/$TOOLCHAIN_SUBDIR/aarch64-none-linux-gnu-"
 ACTION=${1:-generic}
 
 IMAGE_SIZE=51200
-echo "$IMAGE_SIZE"
+echo "IMAGE_SIZE:$IMAGE_SIZE"
 
 move_bk() { [ -e "$1" ] && mv -f "$1" "$2" || true; }
 
