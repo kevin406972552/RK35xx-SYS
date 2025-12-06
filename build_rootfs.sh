@@ -17,7 +17,7 @@ mkdir -p "$OUTPUT_DIR"
 if [[ $ACTION == build ]]; then
      cp -f "$SDK_DIR/customer/$CUST/buildroot/config/$DEFCONFIG" \
           "$ROOTFS_DIR/configs/$DEFCONFIG"
-     cp -f "$SDK_DIR/customer/$CUST/device/parameter.txt" "$OUTPUT_DIR"
+     cp -rf "$SDK_DIR/customer/$CUST/device/parameter.txt" "$OUTPUT_DIR"
 
      make BR2_TOOLCHAIN_EXTERNAL_PATH="$TOOLCHAIN_PATH" \
           BR2_TOOLCHAIN_EXTERNAL_PREFIX="aarch64-none-linux-gnu" \
@@ -27,21 +27,21 @@ if [[ $ACTION == build ]]; then
           -j$(nproc) 
           
      # 拷贝需要打包到rootfs里面的文件
-     # "$SDK_DIR/customer/$CUST/scripts/script_rootfs.sh" $CUST
+     "$SDK_DIR/customer/$CUST/scripts/script_rootfs.sh" $CUST
 
-     # make BR2_TOOLCHAIN_EXTERNAL_PATH="$TOOLCHAIN_PATH" \
-     #      BR2_TOOLCHAIN_EXTERNAL_PREFIX="aarch64-none-linux-gnu" \
-     #      -j$(nproc) rootfs-ext4
+     make BR2_TOOLCHAIN_EXTERNAL_PATH="$TOOLCHAIN_PATH" \
+          BR2_TOOLCHAIN_EXTERNAL_PREFIX="aarch64-none-linux-gnu" \
+          -j$(nproc) rootfs-ext2
 
      install -D -m 644 output/images/rootfs.ext4 "$OUTPUT_DIR/rootfs.ext4"
 
 elif [[ $ACTION == pack ]]; then
      # 拷贝需要打包到rootfs里面的文件
-     # "$SDK_DIR/customer/$CUST/scripts/script_rootfs.sh" $CUST
-     cp -f "$SDK_DIR/customer/$CUST/device/parameter.txt" "$OUTPUT_DIR"
+     "$SDK_DIR/customer/$CUST/scripts/script_rootfs.sh" $CUST
+     cp -rf "$SDK_DIR/customer/$CUST/device/parameter.txt" "$OUTPUT_DIR"
      make BR2_TOOLCHAIN_EXTERNAL_PATH="$TOOLCHAIN_PATH" \
           BR2_TOOLCHAIN_EXTERNAL_PREFIX="aarch64-none-linux-gnu" \
-          -j$(nproc) rootfs-ext4
+          -j$(nproc) rootfs-ext2
 elif [[ $ACTION == clean ]]; then
      make BR2_TOOLCHAIN_EXTERNAL_PATH="$TOOLCHAIN_PATH" \
           BR2_TOOLCHAIN_EXTERNAL_PREFIX="aarch64-none-linux-gnu" \
