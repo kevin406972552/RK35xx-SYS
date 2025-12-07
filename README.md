@@ -25,7 +25,7 @@
 1. 在WSL中如果报：
         Your PATH contains spaces, TABs, and/or newline (\n) characters.
         This doesn't work. Fix you PATH.  
-        请执行  export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/binj'h'f'd'h'g's'd'd'j'hdjcdcjcvnükjr'l'b'g'f'j'k
+        请执行  export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 2. 在WSL中如果报：
         configure: error: you should not run configure as root (set FORCE_UNSAFE_CONFIGURE=1 in environment to bypass this check)  
         请执行 export FORCE_UNSAFE_CONFIGURE=1
