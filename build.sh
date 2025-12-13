@@ -7,7 +7,7 @@ show_help() {
 用法: $0 [项目] [操作]
 
 参数:
-  项目   指定要编译的项目名称，如 OPi5Max
+  项目   指定要编译的项目名称，如 opi5max
   操作   指定要执行的操作（默认为 build）
 
 可用操作:
@@ -18,11 +18,11 @@ show_help() {
   help        显示此帮助信息
 
 示例:
-  $0 OPi5Max           # 一键构建 OPi5Max 项目
-  $0 OPi5Max build     # 同上，显式指定 build 操作
-  $0 OPi5Max clean     # 清除 OPi5Max 项目的编译结果
-  $0 OPi5Max distclean # 深度清除 OPi5Max 项目
-  $0 OPi5Max pack      # 仅打包 OPi5Max 项目
+  $0 opi5max           # 一键构建 opi5max 项目
+  $0 opi5max build     # 同上，显式指定 build 操作
+  $0 opi5max clean     # 清除 opi5max 项目的编译结果
+  $0 opi5max distclean # 深度清除 opi5max 项目
+  $0 opi5max pack      # 仅打包 opi5max 项目
   $0 help              # 显示帮助信息
 
 注意: 所有命令都以指定项目为例，请根据实际编译项目填写
