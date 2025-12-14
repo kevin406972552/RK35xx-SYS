@@ -3,7 +3,7 @@ set -e
 
 # 显示帮助信息
 show_help() {
-    cat << EOF
+cat << EOF
 用法: $0 [项目] [操作]
 
 参数:
@@ -29,6 +29,23 @@ show_help() {
 EOF
 }
 
+load_config() {
+   #-------------------- 加载板级配置 --------------------#
+    BOARD_CONFIG_FILE="customer/$CUST/device/$selected_board"
+    [[ -f "$BOARD_CONFIG_FILE" ]] || { echo "❌ 板子配置文件不存在：$BOARD_CONFIG_FILE"; exit 1; }
+    echo "📦 加载板子配置：$BOARD_CONFIG_FILE"
+
+    # 先记录现场已有变量
+    before=$(compgen -v | sort)
+
+    source "$BOARD_CONFIG_FILE"
+
+    # 当前 shell 里导出新增变量
+    for var in $(comm -13 <(echo "$before") <(compgen -v | sort)); do
+        export "$var"
+    done
+}
+
 # 检查是否需要显示帮助
 if [[ "$1" == "help" || "$1" == "-h" || "$1" == "--help" ]]; then
     show_help
@@ -44,6 +61,63 @@ fi
 CUST=${1:-generic}
 ACTION=${2:-build}
 
+# === 新增逻辑：自动选择板子 ===
+BOARD_CACHE=".selected_board_${CUST}"
+
+# 如果是 clean 或 distclean，而且不存在缓冲文件
+if [[ $ACTION == "clean" || $ACTION == "distclean" ]];  then
+
+    if [ ! -f $BOARD_CACHE ]; then
+        echo "🧹 未编译任何板子，无需清理"
+        exit 0
+    else
+        # 如果是 clean 或 distclean，删除缓存
+        if [[ "$ACTION" == "clean" || "$ACTION" == "distclean" ]]; then
+            selected_board=$(cat "$BOARD_CACHE")
+            load_config
+            rm -f "$BOARD_CACHE"
+        fi
+    fi
+else
+    # 如果缓存不存在，扫描 device 目录并让用户选择
+    if [[ ! -f "$BOARD_CACHE" ]]; then
+        DEVICE_DIR="customer/$CUST/device"
+        if [[ ! -d "$DEVICE_DIR" ]]; then
+            echo "❌ 未找到 device 目录，无法选择板子配置"
+            exit 1
+        fi
+
+        # 查找所有 defconfig 文件
+        mapfile -t boards < <(find "$DEVICE_DIR" -name "*_defconfig" -exec basename {} \; | sort)
+
+        if [[ ${#boards[@]} -eq 0 ]]; then
+            echo "❌ 未找到任何板子配置文件（*_defconfig）"
+            exit 1
+        fi
+
+        echo "📋 请选择要编译的板子配置："
+        for i in "${!boards[@]}"; do
+            echo "$((i+1)). ${boards[i]}"
+        done
+
+        read -p "请输入编号（1-${#boards[@]}）：" choice
+        if ! [[ "$choice" =~ ^[0-9]+$ ]] || (( choice < 1 || choice > ${#boards[@]} )); then
+            echo "❌ 无效选择"
+            exit 1
+        fi
+
+        selected_board="${boards[$((choice-1))]}"
+        echo "$selected_board" > "$BOARD_CACHE"
+        echo "✅ 已选择板子配置：$selected_board"
+    else
+        selected_board=$(cat "$BOARD_CACHE")
+        echo "📌 使用上次选择的板子配置：$selected_board"
+    fi
+
+    load_config
+fi
+
+# 执行子脚本
 ./build_uboot.sh   "$CUST" "$ACTION"
 ./build_kernel.sh  "$CUST" "$ACTION"
 ./build_rootfs.sh  "$CUST" "$ACTION"

@@ -9,7 +9,7 @@ ACTION=${2:-build};
 
 KERNEL_DIR="$SDK_DIR/linux-orangepi"
 OUTPUT_DIR="$SDK_DIR/output"
-DEFCONFIG="linux-rockchip-rk3588-${CUST}_defconfig"
+#DEFCONFIG="linux-rockchip-rk3588-${CUST}_defconfig"
 
 cd "$KERNEL_DIR"
 
@@ -17,17 +17,17 @@ if [[ $ACTION == build ]]; then
     mkdir -p "$OUTPUT_DIR"
     mkdir -p boot/extlinux
 
-    cp -f "$SDK_DIR/customer/$CUST/kernel/config/$DEFCONFIG" \
-        "$KERNEL_DIR/arch/arm64/configs/$DEFCONFIG"  
-    cp -f "$SDK_DIR/customer/$CUST/kernel/dts/rk3588-${CUST}"* \
+    cp -f "$SDK_DIR/customer/$CUST/kernel/config/$KERNEL_CONFIG" \
+        "$KERNEL_DIR/arch/arm64/configs/$KERNEL_CONFIG"  
+    cp -f "$SDK_DIR/customer/$CUST/kernel/dts/$KERNEL_DTS"* \
         "$KERNEL_DIR/arch/arm64/boot/dts/rockchip"
 
-    make ARCH=arm64 CROSS_COMPILE="$TOOLCHAIN" $DEFCONFIG
+    make ARCH=arm64 CROSS_COMPILE="$TOOLCHAIN" $KERNEL_CONFIG
     make ARCH=arm64 CROSS_COMPILE="$TOOLCHAIN" -j$(nproc) Image
     IMAGE_SIZE=$("$SDK_DIR/customer/$CUST/scripts/script_kernel.sh" $ACTION | sed -n 's/^IMAGE_SIZE://p')
     make ARCH=arm64 CROSS_COMPILE="$TOOLCHAIN" -j$(nproc) dtbs
 
-    cp -f "arch/arm64/boot/dts/rockchip/rk3588-${CUST}.dtb" boot/rk3588.dtb
+    cp -f "arch/arm64/boot/dts/rockchip/$KERNEL_DTS.dtb" boot/rk3588.dtb
     cp -f arch/arm64/boot/Image boot/
     cp -f "$SDK_DIR/customer/$CUST/kernel/extlinux.conf" boot/extlinux
     genext2fs -b $IMAGE_SIZE -B $((1024)) -d boot/ -i 8192 -U "kernel_${CUST}.img"
@@ -36,15 +36,15 @@ elif [[ $ACTION == clean ]]; then
     rm -rf boot
     rm -f "$OUTPUT_DIR/kernel_${CUST}.img"
     make ARCH=arm64 CROSS_COMPILE="$TOOLCHAIN" clean
-    rm -f "$KERNEL_DIR/arch/arm64/configs/$DEFCONFIG"
-    rm -f "$KERNEL_DIR/arch/arm64/boot/dts/rockchip/rk3588-${CUST}"*
+    rm -f "$KERNEL_DIR/arch/arm64/configs/$KERNEL_CONFIG"
+    rm -f "$KERNEL_DIR/arch/arm64/boot/dts/rockchip/$KERNEL_DTS"*
     "$SDK_DIR/customer/$CUST/scripts/script_kernel.sh" $ACTION
 elif [[ $ACTION == distclean ]]; then
     rm -rf boot
     rm -f "$OUTPUT_DIR/kernel_${CUST}.img"
     make ARCH=arm64 CROSS_COMPILE="$TOOLCHAIN" distclean
-    rm -f "$KERNEL_DIR/arch/arm64/configs/$DEFCONFIG"
-    rm -f "$KERNEL_DIR/arch/arm64/boot/dts/rockchip/rk3588-${CUST}"*
+    rm -f "$KERNEL_DIR/arch/arm64/configs/$KERNEL_CONFIG"
+    rm -f "$KERNEL_DIR/arch/arm64/boot/dts/rockchip/$KERNEL_DTS"*
     "$SDK_DIR/customer/$CUST/scripts/script_kernel.sh" $ACTION
 else
       echo "kernel nothing to do!"
