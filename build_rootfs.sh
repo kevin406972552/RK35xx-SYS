@@ -42,6 +42,8 @@ elif [[ $ACTION == pack ]]; then
      make BR2_TOOLCHAIN_EXTERNAL_PATH="$TOOLCHAIN_PATH" \
           BR2_TOOLCHAIN_EXTERNAL_PREFIX="aarch64-none-linux-gnu" \
           -j$(nproc) rootfs-ext2
+
+     install -D -m 644 output/images/rootfs.ext4 "$OUTPUT_DIR/rootfs.ext4"
 elif [[ $ACTION == clean ]]; then
      make BR2_TOOLCHAIN_EXTERNAL_PATH="$TOOLCHAIN_PATH" \
           BR2_TOOLCHAIN_EXTERNAL_PREFIX="aarch64-none-linux-gnu" \
