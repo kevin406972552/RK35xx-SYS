@@ -1,5 +1,5 @@
-BUILDROOT_CONFIG_FILE="rk3588_opi5max_defconfig"
-KERNEL_CONFIG="linux-rockchip-rk3588-opi5max_defconfig"
+BUILDROOT_CFG="rk3588_opi5max_defconfig"
+KERNEL_CFG="linux-rockchip-rk3588-opi5max_defconfig"
 KERNEL_DTS="rk3588-opi5max"
-UBOOT_CONFIG="opi5max"
+UBOOT_CFG="opi5max"
 UBOOT_DTS="rk3588-opi5max"

@@ -15,13 +15,13 @@ cd "$ROOTFS_DIR"
 mkdir -p "$OUTPUT_DIR"
 
 if [[ $ACTION == build ]]; then
-     cp -f "$SDK_DIR/customer/$CUST/buildroot/config/$BUILDROOT_CONFIG_FILE" \
-          "$ROOTFS_DIR/configs/$BUILDROOT_CONFIG_FILE"
+     cp -f "$SDK_DIR/customer/$CUST/buildroot/config/$BUILDROOT_CFG" \
+          "$ROOTFS_DIR/configs/$BUILDROOT_CFG"
      cp -rf "$SDK_DIR/customer/$CUST/device/parameter.txt" "$OUTPUT_DIR"
 
      make BR2_TOOLCHAIN_EXTERNAL_PATH="$TOOLCHAIN_PATH" \
           BR2_TOOLCHAIN_EXTERNAL_PREFIX="aarch64-none-linux-gnu" \
-          "$BUILDROOT_CONFIG_FILE"
+          "$BUILDROOT_CFG"
      make BR2_TOOLCHAIN_EXTERNAL_PATH="$TOOLCHAIN_PATH" \
           BR2_TOOLCHAIN_EXTERNAL_PREFIX="aarch64-none-linux-gnu" \
           -j$(nproc) 
@@ -50,14 +50,14 @@ elif [[ $ACTION == clean ]]; then
           clean
      rm -f "$OUTPUT_DIR/rootfs.ext4"
      rm -f "$OUTPUT_DIR/parameter.txt"
-     rm -f "$ROOTFS_DIR/configs/$BUILDROOT_CONFIG_FILE"
+     rm -f "$ROOTFS_DIR/configs/$BUILDROOT_CFG"
 elif [[ $ACTION == distclean ]]; then
      make BR2_TOOLCHAIN_EXTERNAL_PATH="$TOOLCHAIN_PATH" \
           BR2_TOOLCHAIN_EXTERNAL_PREFIX="aarch64-none-linux-gnu" \
           distclean
      rm -f "$OUTPUT_DIR/rootfs.ext4"
      rm -f "$OUTPUT_DIR/parameter.txt"
-     rm -f "$ROOTFS_DIR/configs/$BUILDROOT_CONFIG_FILE"
+     rm -f "$ROOTFS_DIR/configs/$BUILDROOT_CFG"
 else
      echo "rootfs nothing to do!"
 fi

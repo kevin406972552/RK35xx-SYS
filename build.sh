@@ -31,14 +31,14 @@ EOF
 
 load_config() {
    #-------------------- 加载板级配置 --------------------#
-    BOARD_CONFIG_FILE="customer/$CUST/device/$selected_board"
-    [[ -f "$BOARD_CONFIG_FILE" ]] || { echo "❌ 板子配置文件不存在：$BOARD_CONFIG_FILE"; exit 1; }
-    echo "📦 加载板子配置：$BOARD_CONFIG_FILE"
+    BOARD_CFG="customer/$CUST/device/$selected_board"
+    [[ -f "$BOARD_CFG" ]] || { echo "❌ 板子配置文件不存在：$BOARD_CFG"; exit 1; }
+    echo "📦 加载板子配置：$BOARD_CFG"
 
     # 先记录现场已有变量
     before=$(compgen -v | sort)
 
-    source "$BOARD_CONFIG_FILE"
+    source "$BOARD_CFG"
 
     # 当前 shell 里导出新增变量
     for var in $(comm -13 <(echo "$before") <(compgen -v | sort)); do
