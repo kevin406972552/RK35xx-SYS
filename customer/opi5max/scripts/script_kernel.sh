@@ -21,6 +21,7 @@ if [[ $ACTION == build ]]; then
     cp -f "$CUST_DIR/kernel/dts/Makefile" "$SOURCE_DIR/linux-orangepi/arch/arm64/boot/dts/rockchip"
 
     make ARCH=arm64 CROSS_COMPILE="$TOOLCHAIN" -j$(nproc) modules >&2
+    make ARCH=arm64 CROSS_COMPILE="$TOOLCHAIN" INSTALL_MOD_PATH="$SOURCE_DIR/buildroot/output/target"  modules modules_install
 
 elif [[ $ACTION == clean ]]; then
     move_bk "$SOURCE_DIR/linux-orangepi/arch/arm64/boot/dts/rockchip/Makefile_bk" "$SOURCE_DIR/linux-orangepi/arch/arm64/boot/dts/rockchip/Makefile"
