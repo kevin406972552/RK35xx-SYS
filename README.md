@@ -22,10 +22,15 @@
     - ./build_rootfs.sh opi5max pack 仅打包，用于向rootfs添加应用后直接打包
   
 # 注意事项
-1. 在WSL中如果报：
+1. 克隆子模块代码：
+   git submodule update --init --recursive
+
+2. 安装依赖：
+   apt update && apt install -y make gcc g++ build-essential device-tree-compiler python2 python2-dev flex bison libssl-dev genext2fs unzip
+3. 在WSL中如果报：
         Your PATH contains spaces, TABs, and/or newline (\n) characters.
         This doesn't work. Fix you PATH.  
         请执行  export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-2. 在WSL中如果报：
+4. 在WSL中如果报：
         configure: error: you should not run configure as root (set FORCE_UNSAFE_CONFIGURE=1 in environment to bypass this check)  
         请执行 export FORCE_UNSAFE_CONFIGURE=1
