@@ -26,7 +26,7 @@
    git submodule update --init --recursive
 
 2. 安装依赖：
-   apt update && apt install -y make gcc g++ build-essential device-tree-compiler python2 python2-dev flex bison libssl-dev genext2fs unzip
+   apt update && apt install -y make gcc g++ build-essential device-tree-compiler python2 python2-dev flex bison libssl-dev genext2fs unzip libncurses5-dev libncursesw5-dev
 3. 在WSL中如果报：
         Your PATH contains spaces, TABs, and/or newline (\n) characters.
         This doesn't work. Fix you PATH.  
