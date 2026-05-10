@@ -751,10 +751,10 @@
 	status = "okay";
 };
 
-&usbdrd_dwc3_0 {
-	dr_mode = "host";
-	status = "okay";
-};
+// &usbdrd_dwc3_0 {
+// 	dr_mode = "host";
+// 	status = "okay";
+// };
 
 &usbhost3_0 {
 	status = "okay";
