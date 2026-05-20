@@ -27,10 +27,8 @@
 
 2. 安装依赖：
    apt update && apt install -y make gcc g++ build-essential device-tree-compiler python2 python2-dev flex bison libssl-dev genext2fs unzip libncurses5-dev libncursesw5-dev
-3. 在WSL中如果报：
-        Your PATH contains spaces, TABs, and/or newline (\n) characters.
-        This doesn't work. Fix you PATH.  
-        请执行  export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
-4. 在WSL中如果报：
-        configure: error: you should not run configure as root (set FORCE_UNSAFE_CONFIGURE=1 in environment to bypass this check)  
-        请执行 export FORCE_UNSAFE_CONFIGURE=1
+3. 解决因为wsl引入了windows的环境变量后导致运行程序，编译代码报错问题  
+   在 WSL 中编辑（或创建）/etc/wsl.conf  
+   添加以下内容：  
+   [interop]  
+   appendWindowsPath = false
