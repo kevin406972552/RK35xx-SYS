@@ -32,3 +32,6 @@
    添加以下内容：  
    [interop]  
    appendWindowsPath = false
+4. 在WSL中如果报：
+        configure: error: you should not run configure as root (set FORCE_UNSAFE_CONFIGURE=1 in environment to bypass this check)  
+        请执行 export FORCE_UNSAFE_CONFIGURE=1
